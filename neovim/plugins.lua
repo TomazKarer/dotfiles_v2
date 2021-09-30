@@ -1,0 +1,137 @@
+------------------------
+-- Plugin management  --
+------------------------
+
+local g   = vim.g -- global variables
+local api = vim.api
+local fn = vim.fn
+
+-- bootstrap packer.nvim
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  vim.cmd 'packadd packer.nvim'
+end
+
+-- plugin configs:
+---- telescope keymaps
+
+--api.nvim_set_keymap('n', '<leader>ff', ':lua require("telescope.builtin").find_files()<cr>', { noremap = true })
+--api.nvim_set_keymap('n', '<leader>fg', ':lua require("telescope.builtin").live_grep()<cr>', { noremap = true })
+--api.nvim_set_keymap('n', '<leader>fb', ':lua require("telescope.builtin").buffers()<cr>', { noremap = true })
+
+-- nvim-tree.lua
+api.nvim_set_keymap('n', '<leader>nn', ':NvimTreeToggle<CR>', { noremap = true })
+api.nvim_set_keymap('n', '<leader>nf', ':NvimTreeFindFile<CR>', { noremap = true })
+g.nvim_tree_show_icons = { 
+	git = 1, 
+	folders = 1, 
+	files = 1, 
+	folder_arrows = 1 
+}
+require'nvim-tree'.setup()
+
+-- lspconfig
+local nvim_lsp = require("lspconfig")
+
+nvim_lsp.tsserver.setup {
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+        on_attach(client)
+    end
+}
+
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { 'tsserver' }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+
+-- fzf
+api.nvim_set_keymap('n', '<leader>ff', ':Files<CR>', { noremap = true })
+api.nvim_set_keymap('n', '<leader>fg', ':Rg<CR>', { noremap = true })
+api.nvim_set_keymap('n', '<leader>fb', ':Buffers<CR>', { noremap = true })
+
+-- lsp-config
+require'lspconfig'.pyright.setup{}
+--require'lspconfig'.java_language_server.setup{}
+require'lspconfig'.bashls.setup{}
+
+---- vimwiki
+vim.g.vimwiki_list = {{path = '~/zapiski/vimwiki_md/', syntax = 'markdown', ext = '.md'}}
+-- api.nvim_set_keymap('n', '<leader>wn', '<cmd> VimwikiNextLink', { noremap = true })
+--nmap <Leader>wn <Plug>VimwikiNextLink
+
+-- VimWiki hack: when opening new diary file, use template
+-- moved to init.vim
+-- au BufNewFile ~/zapiski/vimwiki_md/diary/*.md : 0r !~/.vim/bin/generate-vimwiki-diary-template '%'
+
+
+-- install plugins
+return require("packer").startup(function(use)
+
+	use 'wbthomason/packer.nvim'
+
+--	use {
+--	  'nvim-telescope/telescope.nvim',
+--	  requires = { {'nvim-lua/plenary.nvim'} }
+--	}
+	
+        use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
+	use {'junegunn/fzf.vim'}
+
+	use {
+	  'vimwiki/vimwiki'
+	}
+
+	use {
+          'kyazdani42/nvim-tree.lua',
+          requires = 'kyazdani42/nvim-web-devicons'
+        }
+
+	use {
+	  'diepm/vim-rest-console'
+	}
+
+	use {
+	  'neovim/nvim-lspconfig'
+	}
+
+  end)
