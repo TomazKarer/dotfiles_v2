@@ -12,5 +12,4 @@ local wo  = vim.wo  -- windows-local options
 
 g.mapleader = ',' -- leader remapped as ,
 api.nvim_set_keymap('i', 'jk', '<Esc>', { noremap = true, silent = true }) -- escape remapped as jk
--- wo.number = true
 
