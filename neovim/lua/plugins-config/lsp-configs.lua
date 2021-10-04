@@ -1,2 +1,2 @@
-require('lua-language-server')
-require('bash-language-server')
+require('plugins-config.lua-language-server')
+require('plugins-config.bash-language-server')
