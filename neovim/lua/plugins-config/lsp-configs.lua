@@ -1,0 +1,1 @@
+require('lua-language-server')
