@@ -9,4 +9,5 @@ g.nvim_tree_show_icons = {
 	files = 1, 
 	folder_arrows = 1 
 }
+api.nvim_exec([[ autocmd BufWinEnter * NvimTreeFindFile ]], false)
 require'nvim-tree'.setup()

@@ -43,4 +43,12 @@ return require("packer").startup(function(use)
 	  'neovim/nvim-lspconfig'
 	}
 
+	use {
+	  'tpope/vim-fugitive'
+	}
+
+	use {
+          'nvim-treesitter/nvim-treesitter',
+          run = ':TSUpdate'
+        }
 end)
