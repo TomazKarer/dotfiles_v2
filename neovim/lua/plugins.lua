@@ -2,8 +2,6 @@
 -- Plugin management  --
 ------------------------
 
-local g   = vim.g -- global variables
-local api = vim.api
 local fn = vim.fn
 
 -- bootstrap packer.nvim
@@ -22,7 +20,7 @@ return require("packer").startup(function(use)
 	  'nvim-telescope/telescope.nvim',
 	  requires = { {'nvim-lua/plenary.nvim'} }
 	}
-      
+
         use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
 	use {'junegunn/fzf.vim'}
 

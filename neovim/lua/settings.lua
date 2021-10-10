@@ -4,7 +4,6 @@
 
 local g   = vim.g -- global variables
 local api = vim.api -- global variables
-local wo  = vim.wo  -- windows-local options
 
 ------------------------
 -- General settings   --
