@@ -45,10 +45,10 @@ return require("packer").startup(function(use)
 	  'tpope/vim-fugitive'
 	}
 
-	use {
-          'nvim-treesitter/nvim-treesitter',
-          run = ':TSUpdate'
-        }
+--	use {
+--          'nvim-treesitter/nvim-treesitter',
+--          run = ':TSUpdate'
+--        }
 
 	use {
           'hoob3rt/lualine.nvim',
