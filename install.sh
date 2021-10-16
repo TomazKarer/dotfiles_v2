@@ -4,8 +4,8 @@ CURRENT_DIR=$(pwd)
 
 #sudo apt update
 sudo apt install tmux ninja-build build-essential
-
-
+. ./installs/terraform.sh
+return 0
 echo "Linking .tmux.conf"
 ln -s -f $CURRENT_DIR/.tmux.conf ~/.tmux.conf
 tmux source-file ~/.tmux.conf
