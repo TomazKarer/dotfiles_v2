@@ -2,10 +2,7 @@
 
 CURRENT_DIR=$(pwd)
 
-#sudo apt update
-sudo apt install tmux ninja-build build-essential
-. ./installs/terraform.sh
-return 0
+
 echo "Linking .tmux.conf"
 ln -s -f $CURRENT_DIR/.tmux.conf ~/.tmux.conf
 tmux source-file ~/.tmux.conf
@@ -34,14 +31,6 @@ ln -s -f $(pwd)/neovim/* ~/.config/nvim/
 #echo "Linking plugins.lua"
 #ln -s -f $(pwd)/neovim/lua/plugins.lua ~/.config/nvim/lua/plugins.lua
 
-current_dir = $(pwd)
-mkdir ~/development/lsps -p
-git clone https://github.com/sumneko/lua-language-server ~/development/lsps/lua-language-server
-cd ~/development/lsps/lua-language-server
-git submodule update --init --recursive
-cd 3rd/luamake
-./compile/install.sh
-cd ../..
-./3rd/luamake/luamake rebuild
-
-cd $current_dir
+. ./installs/terraform.sh
+. ./installs/lua-language-server.sh
+return 0
