@@ -2,6 +2,17 @@
 
 CURRENT_DIR=$(pwd)
 
+sudo apt update
+sudo apt install git tmux
+
+mkdir ~/development/home -p
+
+git clone git@github.com:TomazKarer/gurs_avto.git ~/development/home/gurs_avto
+git clone git@github.com:TomazKarer/karer.si.git ~/development/home/karer.si
+git clone git@github.com:TomazKarer/personal_wiki.git ~/development/home/personal_wiki
+git clone git@github.com:TomazKarer/karers.eu.git ~/development/servers/karers.eu
+git clone git@github.com:TomazKarer/mars_tf_hetzner.git ~/development/servers/mars_tf_hetzner
+git clone git@github.com:TomazKarer/secrets.git ~/development/servers/secrets
 
 echo "Linking .tmux.conf"
 ln -s -f $CURRENT_DIR/.tmux.conf ~/.tmux.conf
@@ -31,6 +42,6 @@ ln -s -f $(pwd)/neovim/* ~/.config/nvim/
 #echo "Linking plugins.lua"
 #ln -s -f $(pwd)/neovim/lua/plugins.lua ~/.config/nvim/lua/plugins.lua
 
-. ./installs/terraform.sh
-. ./installs/lua-language-server.sh
+#. ./installs/terraform.sh
+#. ./installs/lua-language-server.sh
 return 0
