@@ -1,5 +1,5 @@
 local api = vim.api
-vim.g.vimwiki_list = {{path = '~/zapiski/vimwiki_md/', syntax = 'markdown', ext = '.md'}}
+vim.g.vimwiki_list = {{path = '/home/tomazk/development/home/personal_wiki', syntax = 'markdown', ext = '.md'}}
 api.nvim_set_keymap('n', '<leader>wn', '<cmd> VimwikiNextLink', { noremap = true })
 --nmap <Leader>wn <Plug>VimwikiNextLink
 
