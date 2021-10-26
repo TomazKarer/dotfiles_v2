@@ -44,5 +44,6 @@ ln -s -f $(pwd)/neovim/* ~/.config/nvim/
 
 #. ./installs/terraform.sh
 #. ./installs/lua-language-server.sh
-. ./installs/minikube.sh
+#. ./installs/minikube.sh
+. ./installs/bash-language-server.sh
 return 0
